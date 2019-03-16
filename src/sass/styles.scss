@@ -1,0 +1,22 @@
+/*
+   Import partials below
+*/
+@import './normalize';
+* {
+   margin: 0;
+   padding: 0;
+}
+.url-form {
+   margin: 30px;
+   text-align: center;
+}
+.favorites-wrapper {
+   margin-left: 23%;
+   width: 900px;
+}
+.favorites-card {
+   display: flex;
+   justify-content: space-between;
+   height: 30px;
+   margin-top: 15px;
+}

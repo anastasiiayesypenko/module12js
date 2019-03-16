@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Homework-gulp</title>
+</head>
+<body>
+    <form class="url-form">
+        <input type="url" class="url-form__input" required>
+        <button type="submit" class="url-form__button">Добавить</button>
+    </form>
+    <div class="favorites-wrapper"></div>
+    <template id="favorites-template">
+        <section class="favorites-card">
+            <a href={{url}} class="favorites-card__url">{{url}}</a>
+            <button class="favorites-card__delete">Удалить</button>
+        </section>
+    </template>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+</html>
