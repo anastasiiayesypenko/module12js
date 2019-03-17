@@ -8,6 +8,8 @@ const csso = require('gulp-csso');
 const gcmq = require('gulp-group-css-media-queries');
 const del = require('del');
 const htmlmin = require('gulp-htmlmin');
+const imagemin = require('gulp-imagemin');
+const svgstore = require('gulp-svgstore');
 const plumber = require('gulp-plumber');
 const rigger = require('gulp-rigger');
 const stylelint = require('gulp-stylelint');
@@ -65,6 +67,33 @@ gulp.task('scripts', () => {
     .pipe(gulp.dest('./build/js'));
 });
 
+gulp.task('sprite', () => {
+  return gulp
+    .src('./src/images/icons/icon-*.svg')
+    .pipe(svgstore({ inlineSvg: true }))
+    .pipe(rename('sprite.svg'))
+    .pipe(gulp.dest('./build/images'));
+});
+
+gulp.task('images', () => {
+  return gulp
+    .src(['./src/images/**/*.{png,jpg,jpeg,svg}', '!./src/images/icons/**/*'])
+    .pipe(
+      imagemin([
+        imagemin.jpegtran({ progressive: true }),
+        imagemin.optipng({ optimizationLevel: 3 }),
+        imagemin.svgo({
+          plugins: [{ removeViewBox: false }, { cleanupIDs: false }]
+        })
+      ])
+    )
+    .pipe(gulp.dest('./build/images'));
+});
+
+gulp.task('fonts', () => {
+  return gulp.src('./src/fonts/**/*').pipe(gulp.dest('./build/fonts'));
+});
+
 gulp.task('watch', () => {
   gulp.watch('src/**/*.html', ['html']).on('change', server.reload);
   gulp.watch('src/sass/**/*.scss', ['styles']);
@@ -91,7 +120,7 @@ gulp.task('prepare', () => del(['**/.gitkeep', 'README.md', 'banner.png']));
 gulp.task('build', callback =>
   sequence(
     'del:build',
-    ['styles', 'html', 'scripts'],
+    ['sprite', 'images', 'fonts', 'styles', 'html', 'scripts'],
     callback
   )
 );
